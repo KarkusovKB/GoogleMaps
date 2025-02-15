@@ -38,6 +38,9 @@
     <script src="config.js"></script>
     <script src="script.js"></script>
     <script>
+        // Add this before loadGoogleMapsScript
+        console.log('API Key available:', !!config?.GOOGLE_MAPS_API_KEY);
+        
         function loadGoogleMapsScript() {
             const script = document.createElement('script');
             script.src = `https://maps.googleapis.com/maps/api/js?key=${config.GOOGLE_MAPS_API_KEY}&libraries=places,geometry&callback=initMap`;
