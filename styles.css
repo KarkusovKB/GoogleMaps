@@ -1,0 +1,679 @@
+/* Core variables for consistent theming */
+:root {
+    --primary-color: #4CAF50;
+    --primary-dark: #45a049;
+    --danger-color: #dc3545;
+    --danger-dark: #c82333;
+    --text-primary: #2d3748;
+    --text-secondary: #666;
+    --bg-gradient: linear-gradient(135deg, #f6f9fc 0%, #edf2f7 100%);
+    --card-bg: rgba(255, 255, 255, 0.95);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 8px 30px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 12px 40px rgba(0, 0, 0, 0.1);
+    --border-radius-sm: 10px;
+    --border-radius: 12px;
+    --border-radius-lg: 16px;
+    --spacing-sm: 8px;
+    --spacing: 12px;
+    --spacing-lg: 24px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Modern CSS Reset */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text-primary);
+    overflow: hidden;
+    line-height: 1.5;
+}
+
+/* Layout */
+.container {
+    display: grid;
+    grid-template-columns: 350px 1fr;
+    grid-template-rows: auto 1fr;
+    gap: var(--spacing-lg);
+    height: 100vh;
+    padding: var(--spacing-lg);
+}
+
+/* Card Component */
+.card {
+    background: var(--card-bg);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+/* Input Section */
+.input-section {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: var(--spacing);
+    background: var(--card-bg);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+}
+
+#place-input {
+    flex: 1;
+    padding: 14px 18px;
+    border: 2px solid #e2e8f0;
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    transition: var(--transition);
+    outline: none;
+    background: white;
+}
+
+#place-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+}
+
+/* Button Styles */
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    color: white;
+    min-width: 140px;
+}
+
+/* Add Place button */
+button[onclick="addPlace()"] {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.2);
+}
+
+button[onclick="addPlace()"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+}
+
+/* Clear All button */
+button[onclick="clearAllPlaces()"] {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    box-shadow: 0 4px 15px rgba(100, 116, 139, 0.2);
+}
+
+button[onclick="clearAllPlaces()"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(100, 116, 139, 0.3);
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.25);
+}
+
+button i {
+    font-size: 16px;
+}
+
+/* Places List */
+.places-list {
+    background: var(--card-bg);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+.places-list h3 {
+    position: sticky;
+    top: 0;
+    padding: var(--spacing) 0;
+    margin-bottom: var(--spacing-lg);
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+#places {
+    list-style: none;
+}
+
+/* Update places list item styling */
+#places li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    margin-bottom: 12px;
+    border-radius: var(--border-radius);
+    background: white;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border: 1px solid #f0f0f0;
+    gap: 12px;
+}
+
+#places li > div {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 15px;
+    color: var(--text-primary);
+}
+
+.delete-btn {
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    border-radius: var(--border-radius-sm);
+    background: rgba(220, 53, 69, 0.1);
+    color: var(--danger-color);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.delete-btn:hover {
+    background: var(--danger-color);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+}
+
+/* Map Container */
+.map-container {
+    border-radius: var(--border-radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-md);
+    height: calc(100vh - 100px);
+}
+
+/* Transport Controls */
+.transport-controls {
+    position: absolute;
+    top: 100px;
+    right: 40px;
+    z-index: 1;
+    background: var(--card-bg);
+    padding: var(--spacing);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    display: flex;
+    gap: var(--spacing-sm);
+}
+
+.transport-btn {
+    padding: 14px 28px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    background: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.transport-btn.active {
+    background: var(--primary-color);
+    color: white;
+}
+
+/* Route Info */
+.route-info {
+    background: var(--card-bg);
+    padding: var(--spacing-lg);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow-md);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    margin-top: var(--spacing-lg);
+}
+
+/* Export Buttons */
+.export-buttons {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    margin: var(--spacing) 0;
+}
+
+.export-btn {
+    width: 45px;
+    height: 45px;
+    padding: 8px;
+    border-radius: var(--border-radius);
+    background: white;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    border: 1px solid #f0f0f0;
+}
+
+.export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .container {
+        grid-template-columns: 1fr;
+        height: auto;
+        overflow-y: auto;
+        gap: var(--spacing);
+        padding: var(--spacing);
+    }
+
+    .map-container {
+        height: 500px;
+    }
+
+    .transport-controls {
+        position: static;
+        margin: var(--spacing) auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto 1fr auto;
+        gap: 12px;
+        padding: 12px;
+        height: 100vh;
+        overflow: hidden;
+    }
+
+    .input-section {
+        grid-row: 1;
+        padding: 12px;
+        gap: 8px;
+    }
+
+    .main-content {
+        grid-row: 2;
+        height: 50vh; /* Take half of viewport height */
+        min-height: 300px;
+        margin-bottom: 12px;
+    }
+
+    .map-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    .sidebar {
+        grid-row: 3;
+        max-height: 35vh; /* Take remaining space */
+        overflow-y: auto;
+    }
+
+    .places-list {
+        max-height: none;
+        padding: 12px;
+    }
+
+    /* Make transport controls more touch-friendly */
+    .transport-controls {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        top: auto;
+        right: auto;
+        z-index: 10;
+        padding: 8px;
+        border-radius: 25px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .transport-btn {
+        padding: 10px 15px;
+        font-size: 14px;
+    }
+
+    /* Adjust buttons for better touch targets */
+    button {
+        padding: 12px 16px;
+        min-height: 44px;
+    }
+
+    .delete-btn {
+        width: 44px;
+        height: 44px;
+    }
+
+    /* Make place items more compact */
+    #places li {
+        padding: 12px;
+        margin-bottom: 8px;
+    }
+
+    /* Adjust export buttons */
+    .export-buttons {
+        gap: 12px;
+    }
+
+    .export-btn {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Additional adjustments for very small screens */
+@media (max-width: 360px) {
+    .transport-controls {
+        width: 90%;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .transport-btn {
+        flex: 1;
+        min-width: 80px;
+        text-align: center;
+        justify-content: center;
+    }
+}
+
+/* Fix for iOS Safari viewport height issues */
+@supports (-webkit-touch-callout: none) {
+    .container {
+        height: -webkit-fill-available;
+    }
+
+    .main-content {
+        height: 50vh;
+        height: 50dvh; /* Use dynamic viewport height when supported */
+    }
+
+    .sidebar {
+        max-height: 35vh;
+        max-height: 35dvh;
+    }
+}
+
+/* Sidebar styling */
+.sidebar {
+    grid-row: 2;
+    grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+}
+
+/* Main content area */
+.main-content {
+    grid-row: 2;
+    grid-column: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+#map {
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+    position: relative;
+}
+
+/* Google Places Autocomplete styling */
+.pac-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border: none;
+    font-family: 'Segoe UI', Roboto, -apple-system, BlinkMacSystemFont, sans-serif;
+    margin-top: 8px;
+}
+
+.pac-item {
+    padding: 12px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-top: 1px solid #eee;
+}
+
+.pac-item:first-child {
+    border-top: none;
+}
+
+.pac-item:hover {
+    background-color: #f8f9fa;
+}
+
+.pac-item-query {
+    font-size: 15px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+/* Route info styling */
+.route-info h3 {
+    margin: 0 0 16px 0;
+    color: #2c3e50;
+}
+
+.route-info p {
+    margin: 8px 0;
+    color: #666;
+}
+
+.route-info i {
+    margin-right: 8px;
+    color: #4CAF50;
+}
+
+.route-stops {
+    margin-top: 16px;
+}
+
+.route-stops h4 {
+    margin: 0 0 8px 0;
+    color: #2c3e50;
+}
+
+.route-stops ol {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.route-stops li {
+    margin: 8px 0;
+    color: #666;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Transport controls */
+.transport-controls {
+    margin: 10px;
+    padding: 10px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: flex;
+    gap: 8px;
+}
+
+.transport-btn {
+    padding: 8px 16px;
+    background: white;
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.transport-btn:hover {
+    background: #4CAF50;
+    color: white;
+}
+
+/* Loading indicator */
+.loader {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+}
+
+.loader i {
+    margin-right: 8px;
+    color: #4CAF50;
+}
+
+/* Add to your existing transport button styles */
+.transport-btn.active {
+    background: #4CAF50;
+    color: white;
+}
+
+.transport-btn.active:hover {
+    background: #45a049;
+    color: white;
+}
+
+.transit-details {
+    margin: 16px 0;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.transit-step {
+    margin: 12px 0;
+    padding: 8px;
+    border-left: 3px solid #4CAF50;
+    background: white;
+    border-radius: 0 4px 4px 0;
+}
+
+.transit-time {
+    color: #666;
+    font-size: 14px;
+    margin-top: 4px;
+}
+
+.transit-time span {
+    display: inline-block;
+    margin: 0 4px;
+}
+
+/* Export buttons styling */
+.export-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    background: white;
+    padding: 6px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #f0f0f0;
+}
+
+.export-btn svg {
+    width: 100%;
+    height: 100%;
+}
+
+.export-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+.export-btn.google:hover {
+    filter: drop-shadow(0 4px 6px rgba(66, 133, 244, 0.3));
+}
+
+.export-btn.apple:hover {
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+/* Remove the mobile-specific styles for export buttons since they're now circular */
+@media (max-width: 768px) {
+    .export-buttons {
+        flex-direction: row;
+    }
+}
+
+/* Add clear button styling */
+.clear-btn {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
+}
+
+.clear-btn:hover {
+    box-shadow: 0 6px 20px rgba(220, 53, 69, 0.25);
+}
+
+/* Update export button sizes for the new Google logo */
+.export-btn {
+    width: 45px;
+    height: 45px;
+    padding: 6px;
+}
+
+.export-btn.google {
+    padding: 4px;
+} 

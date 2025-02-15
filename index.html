@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Places Map</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="input-section">
+            <input type="text" id="place-input" placeholder="Search for a place, paste Google Maps URL or list URL (e.g., maps.app.goo.gl/...)">
+            <button onclick="addPlace()">
+                <i class="fas fa-plus"></i>
+                Add Place
+            </button>
+            <button onclick="clearAllPlaces()" class="clear-btn">
+                <i class="fas fa-trash"></i>
+                Clear All
+            </button>
+        </div>
+        
+        <div class="sidebar">
+            <div class="places-list">
+                <h3><i class="fas fa-list-ul"></i> Saved Places</h3>
+                <ul id="places"></ul>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Load Google Maps script dynamically
+        function loadGoogleMapsScript() {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${config.GOOGLE_MAPS_API_KEY}&libraries=places,geometry&callback=initMap`;
+            script.async = true;
+            script.defer = true;
+            document.body.appendChild(script);
+        }
+        loadGoogleMapsScript();
+    </script>
+</body>
+</html> 
