@@ -38,11 +38,9 @@
     <script src="config.js"></script>
     <script src="script.js"></script>
     <script>
-        // Load Google Maps script dynamically
         function loadGoogleMapsScript() {
             const script = document.createElement('script');
-            // Get API key from environment variable
-            script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_MAPS_API_KEY}&libraries=places,geometry&callback=initMap`;
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${config.GOOGLE_MAPS_API_KEY}&libraries=places,geometry&callback=initMap`;
             script.async = true;
             script.defer = true;
             document.body.appendChild(script);

@@ -1,5 +1,6 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const fs = require('fs');
 const path = require('path');
 
 dotenv.config();
@@ -7,35 +8,23 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Serve static files
-app.use(express.static('public'));
+// Serve static files except index.html
+app.use(express.static('public', {
+    index: false
+}));
 
-// Inject API key into the HTML
+// Serve index.html with injected API key
 app.get('/', (req, res) => {
-    res.send(`
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <!-- Your existing head content -->
-        </head>
-        <body>
-            <!-- Your existing body content -->
-            <script>
-                window.GOOGLE_MAPS_API_KEY = "${process.env.GOOGLE_MAPS_API_KEY}";
-            </script>
-            <script>
-                function loadGoogleMapsScript() {
-                    const script = document.createElement('script');
-                    script.src = \`https://maps.googleapis.com/maps/api/js?key=\${window.GOOGLE_MAPS_API_KEY}&libraries=places,geometry&callback=initMap\`;
-                    script.async = true;
-                    script.defer = true;
-                    document.body.appendChild(script);
-                }
-                loadGoogleMapsScript();
-            </script>
-        </body>
-        </html>
-    `);
+    fs.readFile(path.join(__dirname, 'public', 'index.html'), 'utf8', (err, html) => {
+        if (err) {
+            res.status(500).send('Error loading page');
+            return;
+        }
+        
+        // Replace placeholder with actual API key
+        const finalHtml = html.replace('%GOOGLE_MAPS_API_KEY%', process.env.GOOGLE_MAPS_API_KEY);
+        res.send(finalHtml);
+    });
 });
 
 app.listen(port, () => {

@@ -1,4 +1,4 @@
-// Rename this file to config.js and add your API key
+// Example configuration - DO NOT ADD REAL API KEY HERE
 const config = {
-    GOOGLE_MAPS_API_KEY: 'YOUR_API_KEY_HERE'
+    GOOGLE_MAPS_API_KEY: 'your-api-key-here'
 }; 
